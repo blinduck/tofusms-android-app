@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
+import com.google.gson.Gson;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -21,7 +22,16 @@ import android.provider.Settings.Secure;
  * Created by deepan on 13/4/17.
  */
 
+
 public class CallAPI extends AsyncTask<String, String, String> {
+    // Class for informing server that a new sms has been received.
+
+    private class SMSData {
+        public String contact;
+        public String message;
+        public String androidId ;
+    }
+
 
     private Context mContext;
     private String androidId;
@@ -30,7 +40,6 @@ public class CallAPI extends AsyncTask<String, String, String> {
         mContext = context;
         androidId = Secure.getString(mContext.getContentResolver(),
                                                     Secure.ANDROID_ID);
-        //set context variables if required
     }
 
     @Override
@@ -42,20 +51,25 @@ public class CallAPI extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        String url = "http://django.afteryou.co/v1/sms_received";
+//        String url = "http://django.afteryou.co/v1/sms_received";
+        String url = "https://afteryou.co/v1/sms_received";
         String charset = "UTF-8";
-//        String param1 = "value1";
-//        String param2 = "value2";
-//        String query;
         String json;
         URLConnection connection;
 
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("contact[number]", params[0]);
-            jsonObject.accumulate("message", params[1]);
-            jsonObject.accumulate("androidId", androidId);
-            json = jsonObject.toString();
+            SMSData sd = new SMSData();
+            sd.contact = params[0];
+            sd.message = params[1];
+            sd.androidId = androidId;
+
+            json = new Gson().toJson(sd);
+
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.accumulate("contact[number]", params[0]);
+//            jsonObject.accumulate("message", params[1]);
+//            jsonObject.accumulate("androidId", androidId);
+//            json = jsonObject.toString();
 
 
 //            query = String.format("param1=%s&param2=%s",

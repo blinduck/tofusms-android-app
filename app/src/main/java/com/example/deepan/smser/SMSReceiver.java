@@ -34,7 +34,6 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
                 String sender = messages[0].getOriginatingAddress();
                 String message = sb.toString();
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 new CallAPI(context).execute(sender, message);
                 // prevent any other broadcast receivers from receiving broadcast
                 // abortBroadcast();

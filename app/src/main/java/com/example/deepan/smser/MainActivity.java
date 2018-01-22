@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void getSMSPermission(View view) {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Already Have SMS Permission", Toast.LENGTH_LONG).show();
         }
-//        sendSMS("+6598164254", "testing");
     }
 
     public void sendSMS(String phoneNo, String msg) {
@@ -63,26 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void postMessage(View view) {
-//        String url = "https://requestb.in/wssm90ws?inspect";
-//        String charset = "UTF-8";
-//        String param1 = "value1";
-//        String param2 = "value2";
-//
-//        String query = String.format("param1=%s&param2=%s",
-//                URLEncoder.encode(param1, charset),
-//                URLEncoder.encode(param2, charset));
-//
-//        URLConnection connection = new URL(url).openConnection();
-//        connection.setDoOutput(true); // Triggers POST.
-//        connection.setRequestProperty("Accept-Charset", charset);
-//        connection.setRequestProperty("Content-Type", "application/json");
-//
-//        try (OutputStream output = connection.getOutputStream()) {
-//            output.write(query.getBytes(charset));
-//        }
-//        InputStream response = connection.getInputStream();
-//        Toast.makeText(getApplicationContext(), "Tofu", Toast.LENGTH_LONG).show();
-//        new CallAPI(getApplicationContext()).execute("+6598164254", "message contents");
+        new CallAPI(getApplicationContext()).execute("+6598164254", "message contents");
         Toast.makeText(getApplicationContext(), "Tofu", Toast.LENGTH_LONG).show();
 
     }
