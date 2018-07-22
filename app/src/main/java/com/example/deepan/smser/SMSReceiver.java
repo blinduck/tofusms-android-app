@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.widget.Toast;
+import android.util.Log;
 
 /**
  * Created by deepan on 13/4/17.
@@ -34,7 +34,20 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
                 String sender = messages[0].getOriginatingAddress();
                 String message = sb.toString();
-                new CallAPI(context).execute(sender, message);
+
+                AppDatabase database = AppDatabase.getAppDatabase(context);
+
+                ReceivedSMS sms = new ReceivedSMS();
+                sms.setContact(sender);
+                sms.setMessage(message);
+                sms.setSynced(false);
+                long uid = database.rSMSDao().add(sms);
+                sms.setUid(uid);
+                Log.v("SMSTesting", "UID: "+ uid);
+
+                Intent sync_intent = new Intent(context, SMSReceivedSyncService.class);
+                sync_intent.putExtra("receivedSMS", sms);
+                context.startService(sync_intent);
                 // prevent any other broadcast receivers from receiving broadcast
                 // abortBroadcast();
             }
